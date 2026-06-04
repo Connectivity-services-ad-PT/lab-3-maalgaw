@@ -31,7 +31,11 @@ jobs:
           nohup npm run mock:vision > prism-vision.log 2>&1 &
 
       - name: Wait for mock servers
-        run: npx wait-on http://localhost:4010/health http://localhost:4011/health --timeout 30000
+        run: |
+          sleep 10
+          cat prism-iot.log || true
+          cat prism-vision.log || true
+          npx wait-on http://localhost:4010/health http://localhost:4011/health --timeout 30000
 
       - name: Run Newman contract tests
         run: npm run test:mock
